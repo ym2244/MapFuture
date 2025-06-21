@@ -1,84 +1,39 @@
 {
   "days": {
     "Day 1": [
-      "Morning: Visit the Old Town",
-      "Afternoon: Lunch at Central Market",
-      "Evening: Riverside stroll"
+      "Visit the museum",
+      "Lunch at a local café"
     ],
     "Day 2": [
-      "Morning: Museum tour",
-      "Afternoon: Local pastry tasting",
-      "Evening: Castle Hill sunset"
+      "City walking tour",
+      "Evening at the theater"
     ],
     "Day 3": [
-      "Morning: Boat ride",
-      "Afternoon: Picnic in City Park",
-      "Evening: Live music at Main Square"
+      "Relax at the beach",
+      "Sunset dinner by the sea"
     ]
   },
   "locations": [
     {
-      "id": 1,
-      "name": "Waterloo",
-      "lat": 40.7128,
-      "lng": -74.006,
-      "day": "Day 1"
+      "day": "Day 1",
+      "name": "Barcelona",
+      "emoji": "🇪🇸",
+      "lat": 41.3851,
+      "lng": 2.1734
     },
     {
-      "id": 2,
-      "name": "Toronto",
-      "lat": 40.7138,
-      "lng": -74.001,
-      "day": "Day 1"
+      "day": "Day 2",
+      "name": "Valencia",
+      "emoji": "🇪🇸",
+      "lat": 39.4699,
+      "lng": -0.3763
     },
     {
-      "id": 3,
-      "name": "Ottawa",
-      "lat": 40.7148,
-      "lng": -74.002,
-      "day": "Day 1"
-    },
-    {
-      "id": 4,
-      "name": "Museum",
-      "lat": 40.7158,
-      "lng": -74.003,
-      "day": "Day 2"
-    },
-    {
-      "id": 5,
-      "name": "Pastry Shop",
-      "lat": 40.7168,
-      "lng": -74.004,
-      "day": "Day 2"
-    },
-    {
-      "id": 6,
-      "name": "Castle Hill",
-      "lat": 40.7178,
-      "lng": -74.005,
-      "day": "Day 2"
-    },
-    {
-      "id": 7,
-      "name": "Boat Dock",
-      "lat": 40.7188,
-      "lng": -74.006,
-      "day": "Day 3"
-    },
-    {
-      "id": 8,
-      "name": "City Park",
-      "lat": 40.7198,
-      "lng": -74.007,
-      "day": "Day 3"
-    },
-    {
-      "id": 9,
-      "name": "Main Square",
-      "lat": 40.7208,
-      "lng": -74.008,
-      "day": "Day 3"
+      "day": "Day 3",
+      "name": "Alicante",
+      "emoji": "🇪🇸",
+      "lat": 38.3452,
+      "lng": -0.4810
     }
   ]
 }
