@@ -5,11 +5,10 @@ import styles from "./Planner.module.css";
 
 export default function Planner() {
   const { createCity } = useCities();
-  const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
   const [country, setCountry] = useState("");
-  const [startDate, setStartDate] = useState(tomorrow);
   const [interest, setInterest] = useState("");
   const [days, setDays] = useState(3);
+  const [startDate, setStartDate] = useState("");
 
   const [planDays, setPlanDays] = useState(null);
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
@@ -18,6 +17,18 @@ export default function Planner() {
   const [feedback, setFeedback] = useState("");
 
   const dayKeys = planDays ? Object.keys(planDays) : [];
+
+  // Helper: generate country flag emoji from country name
+  const countryFlagEmoji = (name) => {
+    if (!name) return "🏙️";
+    // Use first two letters of country to form ISO-like code
+    const code = name.trim().slice(0, 2).toUpperCase().replace(/[^A-Z]/g, '');
+    if (code.length < 2) return "🏙️";
+    return code
+      .split('')
+      .map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65))
+      .join('');
+  };
 
   const getDateForDay = index => {
     if (!startDate) return "";
@@ -30,29 +41,28 @@ export default function Planner() {
     setLoading(true);
     setError("");
     try {
-      const payload = { country, interest, days, startDate };
-      const res = await fetch("/app/travel-plan", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      if (!res.ok) throw new Error(await res.text());
-      const data = await res.json();
+      const daysRes = await fetch("http://localhost:9001/days");
+      const locRes = await fetch("http://localhost:9001/locations");
+      const daysData = await daysRes.json();
+      const locs = await locRes.json();
 
-      // days: { Day 1: [desc], ... }
-      setPlanDays(data.days);
+      const structured = {};
+      Object.entries(daysData).forEach(([day, acts]) => {
+        const cityName = locs.find(l => l.day === day)?.name || "";
+        structured[day] = { city: cityName, desc: acts.join(", ") };
+      });
+      setPlanDays(structured);
       setCurrentDayIndex(0);
 
-      // locations: [{cityName, country, emoji, position}, ...]
-      data.locations.forEach((loc, i) => {
+      Object.entries(structured).forEach(([day, d], i) => {
+        const loc = locs.find(l => l.name === d.city);
         createCity({
-          cityName: loc.cityName,
-          country: loc.country,
-          emoji: loc.emoji,
-          position: loc.position,
-          date: getDateForDay(i),
-          notes: `${loc.cityName} on ${getDateForDay(i)}`,
-          id: Date.now() + i
+          cityName: d.city,
+          country: country || "",
+          emoji: countryFlagEmoji(country),
+          position: loc ? { lat: loc.lat, lng: loc.lng } : { lat: 0, lng: 0 },
+          notes: `${day} - ${country}`,
+          date: getDateForDay(i)
         });
       });
     } catch (e) {
@@ -70,7 +80,27 @@ export default function Planner() {
     <div className={styles.planner}>
       <h2>🧭 Travel Planner</h2>
       <form className={styles.form} onSubmit={handleStart}>
-        {/* First row: Country + Start Date */}
+        {/* First row: Interest + Days */}
+        <div className={styles.rowInline}>
+          <div className={styles.inputGroup}>
+            <label>Interest</label>
+            <input
+              value={interest}
+              onChange={e => setInterest(e.target.value)}
+              placeholder="e.g. Art"
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label>Days</label>
+            <input
+              type="number"
+              value={days}
+              onChange={e => setDays(+e.target.value)}
+              min={1}
+            />
+          </div>
+        </div>
+        {/* Second row: Country + Start Date */}
         <div className={styles.rowInline}>
           <div className={styles.inputGroup}>
             <label>Country</label>
@@ -91,26 +121,6 @@ export default function Planner() {
             />
           </div>
         </div>
-        {/* Second row: Interest + Days */}
-        <div className={styles.rowInline}>
-          <div className={styles.inputGroup}>
-            <label>Interest</label>
-            <input
-              value={interest}
-              onChange={e => setInterest(e.target.value)}
-              placeholder="e.g. Art, Food"
-            />
-          </div>
-          <div className={styles.inputGroup}>
-            <label>Days</label>
-            <input
-              type="number"
-              value={days}
-              onChange={e => setDays(+e.target.value)}
-              min={1}
-            />
-          </div>
-        </div>
         <button type="submit" className={`${styles.btn} cta`} disabled={loading}>
           {loading ? "Loading..." : "Generate Full Plan"}
         </button>
@@ -118,37 +128,31 @@ export default function Planner() {
       </form>
 
       <div className={styles.planArea}>
-        {!planDays && (
-          <div className={styles.placeholder}>Your travel plan will appear here once generated.</div>
-        )}
-
+        {!planDays && <div className={styles.placeholder}>Your plan will show here.</div>}
         {planDays && (
           <div className={styles.planContainer}>
             <div className={styles.planDay}>
               <h3>{`${dayKeys[currentDayIndex]} - ${getDateForDay(currentDayIndex)}`}</h3>
               <ul className={styles.planList}>
+                <li><span className={styles.planLabel}>Country:</span> {country}</li>
                 <li><span className={styles.planLabel}>City:</span> {planDays[dayKeys[currentDayIndex]].city}</li>
                 <li><span className={styles.planLabel}>Details:</span> {planDays[dayKeys[currentDayIndex]].desc}</li>
               </ul>
-
               <textarea
                 className={styles.feedback}
-                placeholder="Tell AI adjustments, I'll regenerate..."
+                placeholder="Adjust plan..."
                 value={feedback}
                 onChange={e => setFeedback(e.target.value)}
               />
-
               <div className={styles.actions}>
                 {currentDayIndex < dayKeys.length - 1 ? (
                   <>
                     <button onClick={handleRegenerate} className={styles.secondary} disabled={loading}>
-                      {loading ? "Regenerating..." : "Regenerate Day"}
+                      {loading ? "Regenerate..." : "Regenerate"}
                     </button>
-                    <button onClick={handleConfirm} className={`cta ${styles.btn}`}>Confirm Day</button>
+                    <button onClick={handleConfirm} className={`cta ${styles.btn}`}>Confirm</button>
                   </>
-                ) : (
-                  <p className={styles.complete}>🎉 All days confirmed!</p>
-                )}
+                ) : <p className={styles.complete}>🎉 Done!</p>}
               </div>
             </div>
           </div>

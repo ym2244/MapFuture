@@ -50,39 +50,75 @@
     },
     {
       "cityName": "Waterloo",
-      "country": "india",
-      "emoji": "🇮🇳",
+      "country": "1",
+      "emoji": "🏙️",
       "position": {
         "lat": 40.7128,
         "lng": -74.006
       },
-      "notes": "Day 1 - india",
-      "date": "2025-07-02",
+      "notes": "Day 1 - 1",
+      "date": "2025-06-26",
       "id": 98443199
     },
     {
       "cityName": "Museum",
-      "country": "india",
-      "emoji": "🇮🇳",
+      "country": "1",
+      "emoji": "🏙️",
       "position": {
         "lat": 40.7158,
         "lng": -74.003
       },
-      "notes": "Day 2 - india",
-      "date": "2025-07-03",
+      "notes": "Day 2 - 1",
+      "date": "2025-06-27",
       "id": 98443200
     },
     {
       "cityName": "Boat Dock",
-      "country": "india",
-      "emoji": "🇮🇳",
+      "country": "1",
+      "emoji": "🏙️",
       "position": {
         "lat": 40.7188,
         "lng": -74.006
       },
-      "notes": "Day 3 - india",
-      "date": "2025-07-04",
+      "notes": "Day 3 - 1",
+      "date": "2025-06-28",
       "id": 98443201
+    },
+    {
+      "cityName": "Museum",
+      "country": "canada",
+      "emoji": "🇨🇦",
+      "position": {
+        "lat": 40.7158,
+        "lng": -74.003
+      },
+      "notes": "Day 2 - canada",
+      "date": "2025-06-20",
+      "id": 98443202
+    },
+    {
+      "cityName": "Boat Dock",
+      "country": "canada",
+      "emoji": "🇨🇦",
+      "position": {
+        "lat": 40.7188,
+        "lng": -74.006
+      },
+      "notes": "Day 3 - canada",
+      "date": "2025-06-21",
+      "id": 98443203
+    },
+    {
+      "cityName": "Waterloo",
+      "country": "canada",
+      "emoji": "🇨🇦",
+      "position": {
+        "lat": 40.7128,
+        "lng": -74.006
+      },
+      "notes": "Day 1 - canada",
+      "date": "2025-06-19",
+      "id": 98443204
     }
   ]
 }
