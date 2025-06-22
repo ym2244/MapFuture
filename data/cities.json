@@ -47,6 +47,114 @@
         "lng": "-2.13128394200588"
       },
       "id": 98443198
+    },
+    {
+      "cityName": "Beijing",
+      "country": "china",
+      "emoji": "🇨🇳",
+      "position": {
+        "lat": 39.9042,
+        "lng": 116.4074
+      },
+      "date": "2025-06-23",
+      "notes": "Beijing on 2025-06-23",
+      "id": 1750568025502
+    },
+    {
+      "cityName": "Xi'an",
+      "country": "china",
+      "emoji": "🇨🇳",
+      "position": {
+        "lat": 34.2583,
+        "lng": 108.9343
+      },
+      "date": "2025-06-24",
+      "notes": "Xi'an on 2025-06-24",
+      "id": 1750568025504
+    },
+    {
+      "cityName": "Shanghai",
+      "country": "china",
+      "emoji": "🇨🇳",
+      "position": {
+        "lat": 31.2304,
+        "lng": 121.4737
+      },
+      "date": "2025-06-25",
+      "notes": "Shanghai on 2025-06-25",
+      "id": 1750568025505
+    },
+    {
+      "cityName": "Shanghai",
+      "country": "china",
+      "emoji": "🇨🇳",
+      "position": {
+        "lat": 31.2304,
+        "lng": 121.4737
+      },
+      "date": "2025-06-23",
+      "notes": "Shanghai on 2025-06-23",
+      "id": 1750568139849
+    },
+    {
+      "cityName": "Xi'an",
+      "country": "china",
+      "emoji": "🇨🇳",
+      "position": {
+        "lat": 34.2653,
+        "lng": 108.9445
+      },
+      "date": "2025-06-24",
+      "notes": "Xi'an on 2025-06-24",
+      "id": 1750568139850
+    },
+    {
+      "cityName": "Xi'an",
+      "country": "china",
+      "emoji": "🇨🇳",
+      "position": {
+        "lat": 34.2653,
+        "lng": 108.9445
+      },
+      "date": "2025-06-25",
+      "notes": "Xi'an on 2025-06-25",
+      "id": 1750568139852
+    },
+    {
+      "cityName": "Toronto",
+      "country": "canada",
+      "emoji": "🇨🇦",
+      "position": {
+        "lat": 43.6532,
+        "lng": -79.3832
+      },
+      "date": "2025-06-23",
+      "notes": "Toronto on 2025-06-23",
+      "id": 1750568349282
+    },
+    {
+      "cityName": "Vancouver",
+      "country": "canada",
+      "emoji": "🇨🇦",
+      "position": {
+        "lat": 49.2827,
+        "lng": -123.1207
+      },
+      "date": "2025-06-24",
+      "notes": "Vancouver on 2025-06-24",
+      "id": 1750568349283
+    },
+    {
+      "cityName": "Montreal",
+      "country": "canada",
+      "emoji": "🇨🇦",
+      "position": {
+        "lat": 45.5017,
+        "lng": -73.5673
+      },
+      "date": "2025-06-25",
+      "notes": "Montreal on 2025-06-25",
+      "id": 1750568349284
     }
   ]
 }
