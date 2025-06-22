@@ -1,0 +1,16 @@
+# Dockerfile.frontend
+FROM node:18-alpine
+WORKDIR /app
+
+# 只复制 package.json，加速缓存
+COPY package*.json ./
+RUN npm install
+
+# 复制其余所有代码
+COPY . .
+
+# 暴露端口
+EXPOSE 5173
+
+# 启动时一路传递 --host 0.0.0.0
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

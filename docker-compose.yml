@@ -1,0 +1,32 @@
+services:
+  fake-api:
+    build:
+      context: ./data
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    env_file: .env
+
+  backend:
+    build:
+      context: ./src/AI
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - fake-api
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    environment:
+      - VITE_BACKEND_URL=http://backend:8000
+      - VITE_FAKEAPI_URL=http://fake-api:9000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+      - fake-api
