@@ -14,8 +14,8 @@ export default function Planner() {
   const [days, setDays] = useState(3);
 
   // plan state
-  const [planDays, setPlanDays] = useState(null);       // { Day 1: { city, desc }, ... }
-  const [locations, setLocations] = useState([]);       // raw locations array from API
+  const [planDays, setPlanDays] = useState(null); // { Day 1: { city, desc }, ... }
+  const [locations, setLocations] = useState([]); // raw locations array from API
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
   const [approvedCities, setApprovedCities] = useState([]);
   const [allDone, setAllDone] = useState(false);
@@ -65,10 +65,10 @@ export default function Planner() {
       if (isRegeneration && planDays) {
         // partial update: only update current day
         const dayName = dayKeys[currentDayIndex];
-        setPlanDays(prev => ({ ...prev, [dayName]: structured[dayName] }));
-        setLocations(prev => {
-          const filtered = prev.filter(l => l.day !== dayName);
-          return [...filtered, locs.find(l => l.day === dayName)];
+        setPlanDays((prev) => ({ ...prev, [dayName]: structured[dayName] }));
+        setLocations((prev) => {
+          const filtered = prev.filter((l) => l.day !== dayName);
+          return [...filtered, locs.find((l) => l.day === dayName)];
         });
       } else {
         // full generation
@@ -182,7 +182,11 @@ export default function Planner() {
           </div>
         </div>
 
-        <button type="submit" className={`${styles.btn} cta`} disabled={loading}>
+        <button
+          type="submit"
+          className={`${styles.btn} cta`}
+          disabled={loading}
+        >
           {loading ? "Loading..." : "Generate Full Plan"}
         </button>
         {error && <p className={styles.error}>{error}</p>}
@@ -190,17 +194,23 @@ export default function Planner() {
 
       <div className={styles.planArea}>
         {!planDays ? (
-          <div className={styles.placeholder}>Your travel plan will appear here once generated.</div>
+          <div className={styles.placeholder}>
+            Your travel plan will appear here once generated.
+          </div>
         ) : (
           <div className={styles.planContainer}>
             <div className={styles.planDay}>
-              <h3>{`${dayKeys[currentDayIndex]} - ${getDateForDay(currentDayIndex)}`}</h3>
+              <h3>{`${dayKeys[currentDayIndex]} - ${getDateForDay(
+                currentDayIndex
+              )}`}</h3>
               <ul className={styles.planList}>
                 <li>
-                  <span className={styles.planLabel}>City:</span> {planDays[dayKeys[currentDayIndex]].city}
+                  <span className={styles.planLabel}>City:</span>{" "}
+                  {planDays[dayKeys[currentDayIndex]].city}
                 </li>
                 <li>
-                  <span className={styles.planLabel}>Details:</span> {planDays[dayKeys[currentDayIndex]].desc}
+                  <span className={styles.planLabel}>Details:</span>{" "}
+                  {planDays[dayKeys[currentDayIndex]].desc}
                 </li>
               </ul>
 
@@ -212,24 +222,16 @@ export default function Planner() {
               />
 
               <div className={styles.actions}>
-                {currentDayIndex < dayKeys.length - 1 ? (
-                  <>
-                    <button
-                      onClick={handleRegenerate}
-                      className={styles.secondary}
-                      disabled={loading}
-                    >
-                      {loading ? "Regenerating..." : "Regenerate Day"}
-                    </button>
-                    <button onClick={handleConfirm} className={`cta ${styles.btn}`}>
-                      Confirm Day
-                    </button>
-                  </>
-                ) : (
-                  <button onClick={handleConfirm} className={`cta ${styles.btn}`}>
-                    Confirm Day
-                  </button>
-                )}
+                <button
+                  onClick={handleRegenerate}
+                  className={`${styles.btn} cta`}
+                  disabled={loading}
+                >
+                  {loading ? "Regenerating..." : "Regenerate Day"}
+                </button>
+                <button onClick={handleConfirm} className={`cta ${styles.btn}`}>
+                  Confirm Day
+                </button>
               </div>
             </div>
           </div>
