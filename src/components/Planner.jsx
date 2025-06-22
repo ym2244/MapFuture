@@ -1,41 +1,101 @@
 /* src/pages/Planner.jsx */
-import React, { useState } from "react";
+import React, { useReducer, useEffect } from "react";
 import { useCities } from "../contexts/CitiesContext";
 import styles from "./Planner.module.css";
 
+const initialState = {
+  country: "",
+  startDate: new Date(Date.now() + 86400000).toISOString().split("T")[0],
+  interest: "",
+  days: 3,
+  planDays: null,
+  locations: [],
+  currentDayIndex: 0,
+  approvedCities: [],
+  allDone: false,
+  loading: false,
+  error: "",
+  feedback: "",
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "SET_FIELD":
+      return { ...state, [action.field]: action.value };
+    case "FETCH_START":
+      return { ...state, loading: true, error: "" };
+    case "FETCH_ERROR":
+      return { ...state, loading: false, error: action.error };
+    case "FULL_PLAN":
+      return {
+        ...state,
+        planDays: action.planDays,
+        locations: action.locations,
+        currentDayIndex: 0,
+        approvedCities: [],
+        allDone: false,
+        loading: false,
+      };
+    case "PARTIAL_PLAN":
+      return {
+        ...state,
+        planDays: {
+          ...state.planDays,
+          [action.day]: action.planDays[action.day],
+        },
+        locations: [
+          ...state.locations.filter((l) => l.day !== action.day),
+          action.location,
+        ],
+        loading: false,
+      };
+    case "CONFIRM_DAY": {
+      const newApproved = [...state.approvedCities, action.city];
+      const isLast =
+        state.currentDayIndex === Object.keys(state.planDays).length - 1;
+      return {
+        ...state,
+        approvedCities: newApproved,
+        currentDayIndex: isLast
+          ? state.currentDayIndex
+          : state.currentDayIndex + 1,
+        allDone: isLast,
+        feedback: isLast ? state.feedback : "",
+      };
+    }
+    default:
+      return state;
+  }
+}
+
 export default function Planner() {
-  const { createCity } = useCities();
-  const tomorrow = new Date(Date.now() + 86400000).toISOString().split("T")[0];
-
-  // form state
-  const [country, setCountry] = useState("");
-  const [startDate, setStartDate] = useState(tomorrow);
-  const [interest, setInterest] = useState("");
-  const [days, setDays] = useState(3);
-
-  // plan state
-  const [planDays, setPlanDays] = useState(null); // { Day 1: { city, desc }, ... }
-  const [locations, setLocations] = useState([]); // raw locations array from API
-  const [currentDayIndex, setCurrentDayIndex] = useState(0);
-  const [approvedCities, setApprovedCities] = useState([]);
-  const [allDone, setAllDone] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [feedback, setFeedback] = useState("");
+  const { createCity, cities } = useCities();
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const {
+    country,
+    startDate,
+    interest,
+    days,
+    planDays,
+    locations,
+    currentDayIndex,
+    approvedCities,
+    allDone,
+    loading,
+    error,
+    feedback,
+  } = state;
 
   const dayKeys = planDays ? Object.keys(planDays) : [];
 
-  // compute date for a given day index
   const getDateForDay = (index) => {
     const d = new Date(startDate);
     d.setDate(d.getDate() + index);
     return d.toISOString().split("T")[0];
   };
 
-  // fetch plan from backend
-  async function fetchPlan(isRegeneration = false) {
-    setLoading(true);
-    setError("");
+  const fetchPlan = async (isRegeneration = false) => {
+    dispatch({ type: "FETCH_START" });
     try {
       const payload = {
         country,
@@ -54,77 +114,60 @@ export default function Planner() {
       if (!res.ok) throw new Error(await res.text());
 
       const { days: daysData, locations: locs } = await res.json();
-
-      // build structured planDays
       const structured = {};
       Object.entries(daysData).forEach(([day, acts]) => {
-        const name = locs.find((l) => l.day === day)?.name || "";
-        structured[day] = { city: name, desc: acts.join(", ") };
+        structured[day] = {
+          city: locs.find((l) => l.day === day)?.name || "",
+          desc: acts.join(", "),
+        };
       });
 
       if (isRegeneration && planDays) {
-        // partial update: only update current day
         const dayName = dayKeys[currentDayIndex];
-        setPlanDays((prev) => ({ ...prev, [dayName]: structured[dayName] }));
-        setLocations((prev) => {
-          const filtered = prev.filter((l) => l.day !== dayName);
-          return [...filtered, locs.find((l) => l.day === dayName)];
+        const location = locs.find((l) => l.day === dayName);
+        dispatch({
+          type: "PARTIAL_PLAN",
+          day: dayName,
+          planDays: structured,
+          location,
         });
       } else {
-        // full generation
-        setPlanDays(structured);
-        setLocations(locs);
-        setCurrentDayIndex(0);
-        setApprovedCities([]);
-        setAllDone(false);
+        dispatch({ type: "FULL_PLAN", planDays: structured, locations: locs });
       }
     } catch (e) {
-      setError("生成计划失败: " + e.message);
-    } finally {
-      setLoading(false);
+      dispatch({ type: "FETCH_ERROR", error: "生成计划失败: " + e.message });
     }
-  }
+  };
 
-  // handle generate full plan
   const handleStart = (e) => {
     e.preventDefault();
     fetchPlan(false);
   };
-
-  // handle confirm current day
+  const handleRegenerate = () => fetchPlan(true);
   const handleConfirm = () => {
     const dayName = dayKeys[currentDayIndex];
     const cityName = planDays[dayName].city;
-    const newApproved = [...approvedCities, cityName];
-    setApprovedCities(newApproved);
+    dispatch({ type: "CONFIRM_DAY", city: cityName });
+  };
 
-    if (currentDayIndex === dayKeys.length - 1) {
-      // last day confirmed
-      setAllDone(true);
-      // create all pins at once
-      newApproved.forEach((name, i) => {
+  useEffect(() => {
+    if (allDone) {
+      approvedCities.forEach((name, i) => {
         const loc = locations.find((l) => l.name === name);
-        createCity({
-          cityName: name,
-          country,
-          emoji: loc?.emoji || "🏙️",
-          position: loc ? { lat: loc.lat, lng: loc.lng } : { lat: 0, lng: 0 },
-          date: getDateForDay(i),
-          notes: `${name} on ${getDateForDay(i)}`,
-          id: Date.now() + i,
-        });
+        if (!cities.some((c) => c.cityName === name)) {
+          createCity({
+            cityName: name,
+            country,
+            emoji: loc?.emoji || "🏙️",
+            position: loc ? { lat: loc.lat, lng: loc.lng } : { lat: 0, lng: 0 },
+            date: getDateForDay(i),
+            notes: `${name} on ${getDateForDay(i)}`,
+            id: Date.now() + i,
+          });
+        }
       });
-    } else {
-      // move to next day
-      setCurrentDayIndex((i) => i + 1);
-      setFeedback("");
     }
-  };
-
-  // handle regenerate only current day
-  const handleRegenerate = () => {
-    fetchPlan(true);
-  };
+  }, [allDone]);
 
   if (allDone) {
     return (
@@ -137,15 +180,19 @@ export default function Planner() {
   return (
     <div className={styles.planner}>
       <h2>🧭 Travel Planner</h2>
-
       <form className={styles.form} onSubmit={handleStart}>
-        {/* First row: Country + Start Date */}
         <div className={styles.rowInline}>
           <div className={styles.inputGroup}>
             <label>Country</label>
             <input
               value={country}
-              onChange={(e) => setCountry(e.target.value)}
+              onChange={(e) =>
+                dispatch({
+                  type: "SET_FIELD",
+                  field: "country",
+                  value: e.target.value,
+                })
+              }
               placeholder="e.g. Spain"
               required
             />
@@ -155,19 +202,29 @@ export default function Planner() {
             <input
               type="date"
               value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
+              onChange={(e) =>
+                dispatch({
+                  type: "SET_FIELD",
+                  field: "startDate",
+                  value: e.target.value,
+                })
+              }
               required
             />
           </div>
         </div>
-
-        {/* Second row: Interest + Days */}
         <div className={styles.rowInline}>
           <div className={styles.inputGroup}>
             <label>Interest</label>
             <input
               value={interest}
-              onChange={(e) => setInterest(e.target.value)}
+              onChange={(e) =>
+                dispatch({
+                  type: "SET_FIELD",
+                  field: "interest",
+                  value: e.target.value,
+                })
+              }
               placeholder="e.g. Art, Food"
             />
           </div>
@@ -176,12 +233,17 @@ export default function Planner() {
             <input
               type="number"
               value={days}
-              onChange={(e) => setDays(+e.target.value)}
+              onChange={(e) =>
+                dispatch({
+                  type: "SET_FIELD",
+                  field: "days",
+                  value: +e.target.value,
+                })
+              }
               min={1}
             />
           </div>
         </div>
-
         <button
           type="submit"
           className={`${styles.btn} cta`}
@@ -192,12 +254,8 @@ export default function Planner() {
         {error && <p className={styles.error}>{error}</p>}
       </form>
 
-      <div className={styles.planArea}>
-        {!planDays ? (
-          <div className={styles.placeholder}>
-            Your travel plan will appear here once generated.
-          </div>
-        ) : (
+      {planDays && (
+        <div className={styles.planArea}>
           <div className={styles.planContainer}>
             <div className={styles.planDay}>
               <h3>{`${dayKeys[currentDayIndex]} - ${getDateForDay(
@@ -213,14 +271,18 @@ export default function Planner() {
                   {planDays[dayKeys[currentDayIndex]].desc}
                 </li>
               </ul>
-
               <textarea
                 className={styles.feedback}
                 placeholder="Tell AI adjustments, I'll regenerate..."
                 value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
+                onChange={(e) =>
+                  dispatch({
+                    type: "SET_FIELD",
+                    field: "feedback",
+                    value: e.target.value,
+                  })
+                }
               />
-
               <div className={styles.actions}>
                 <button
                   onClick={handleRegenerate}
@@ -229,14 +291,14 @@ export default function Planner() {
                 >
                   {loading ? "Regenerating..." : "Regenerate Day"}
                 </button>
-                <button onClick={handleConfirm} className={`cta ${styles.btn}`}>
+                <button onClick={handleConfirm} className={`${styles.btn} cta`}>
                   Confirm Day
                 </button>
               </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
