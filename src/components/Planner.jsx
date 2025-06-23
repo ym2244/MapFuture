@@ -2,6 +2,9 @@
 import React, { useReducer, useEffect } from "react";
 import { useCities } from "../contexts/CitiesContext";
 import styles from "./Planner.module.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Button from "./Button";
 
 const initialState = {
   country: "",
@@ -144,7 +147,7 @@ export default function Planner() {
     } catch (e) {
       dispatch({
         type: "planner/error",
-        payload: "生成计划失败: " + e.message,
+        payload: "Fail to generate plan: " + e.message,
       });
     }
   };
@@ -182,7 +185,7 @@ export default function Planner() {
   if (allDone) {
     return (
       <div className={styles.planner}>
-        <h2>🎉 All days confirmed! You’re ready to go.</h2>
+        <h2>🎉 All days confirmed! You're ready to go.</h2>
       </div>
     );
   }
@@ -203,22 +206,24 @@ export default function Planner() {
                   payload: e.target.value,
                 })
               }
-              placeholder="e.g. Spain"
+              placeholder="e.g. Canada"
               required
             />
           </div>
           <div className={styles.inputGroup}>
             <label>Start Date</label>
-            <input
-              type="date"
-              value={startDate}
-              onChange={(e) =>
+            <DatePicker
+              className={styles.input} // 新增
+              selected={new Date(startDate)}
+              onChange={(date) =>
                 dispatch({
                   type: "planner/fieldSet",
                   field: "startDate",
-                  payload: e.target.value,
+                  payload: date.toISOString().split("T")[0],
                 })
               }
+              dateFormat="dd/MM/yyyy"
+              minDate={new Date()}
               required
             />
           </div>
@@ -254,19 +259,18 @@ export default function Planner() {
             />
           </div>
         </div>
-        <button
-          type="submit"
-          className={`${styles.btn} cta`}
-          disabled={loading}
-        >
-          {loading ? "Loading..." : "Generate Full Plan"}
-        </button>
+        <Button type="primary">{loading ? "Loading..." : "Generate"}</Button>
+
         {error && <p className={styles.error}>{error}</p>}
       </form>
 
       {planDays && (
         <div className={styles.planArea}>
-          <div className={styles.planContainer}>
+          <div
+            className={`${styles.planContainer} ${
+              loading ? styles.loading : ""
+            }`}
+          >
             <div className={styles.planDay}>
               <h3>{`${dayKeys[currentDayIndex]} - ${getDateForDay(
                 currentDayIndex
@@ -283,7 +287,7 @@ export default function Planner() {
               </ul>
               <textarea
                 className={styles.feedback}
-                placeholder="Tell AI adjustments, I'll regenerate..."
+                placeholder="Tell AI adjustments, It will regenerate accordingly."
                 value={feedback}
                 onChange={(e) =>
                   dispatch({
@@ -294,16 +298,20 @@ export default function Planner() {
                 }
               />
               <div className={styles.actions}>
-                <button
+                <Button
+                  type="back"
                   onClick={handleRegenerate}
-                  className={`${styles.btn} cta`}
                   disabled={loading}
                 >
-                  {loading ? "Regenerating..." : "Regenerate Day"}
-                </button>
-                <button onClick={handleConfirm} className={`${styles.btn} cta`}>
-                  Confirm Day
-                </button>
+                  {loading ? "Regenerating..." : "Regenerate"}
+                </Button>
+                <Button
+                  type="primary"
+                  onClick={handleConfirm}
+                  disabled={loading}
+                >
+                  Confirm
+                </Button>
               </div>
             </div>
           </div>

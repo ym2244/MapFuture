@@ -47,6 +47,42 @@
         "lng": "-2.13128394200588"
       },
       "id": 98443198
+    },
+    {
+      "cityName": "Toronto",
+      "country": "Canada",
+      "emoji": "🇨🇦",
+      "position": {
+        "lat": 43.6532,
+        "lng": -79.3832
+      },
+      "date": "2025-06-24",
+      "notes": "Toronto on 2025-06-24",
+      "id": 1750656389437
+    },
+    {
+      "cityName": "Niagara Falls",
+      "country": "Canada",
+      "emoji": "🇨🇦",
+      "position": {
+        "lat": 43.0781,
+        "lng": -79.0759
+      },
+      "date": "2025-06-25",
+      "notes": "Niagara Falls on 2025-06-25",
+      "id": 1750656389439
+    },
+    {
+      "cityName": "Montreal",
+      "country": "Canada",
+      "emoji": "🇨🇦",
+      "position": {
+        "lat": 45.5088,
+        "lng": -73.5878
+      },
+      "date": "2025-06-26",
+      "notes": "Montreal on 2025-06-26",
+      "id": 1750656389440
     }
   ]
 }

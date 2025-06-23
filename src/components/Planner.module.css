@@ -13,6 +13,12 @@
 .form {
   display: flex;
   flex-direction: column;
+  gap: 1.2rem; /* Add uniform spacing between all children */
+}
+
+.form button {
+  width: fit-content;
+  display: inline-block;
 }
 
 .rowInline {
@@ -39,6 +45,17 @@
   background: var(--color-light--3);
 }
 
+.input,
+.react-datepicker__input-container input {
+  padding: 0.6rem;
+  font-size: 1.4rem;
+  border-radius: 5px;
+  border: none;
+  background: var(--color-light--3);
+  height: 3.88rem; /* Adjust as needed */
+  box-sizing: border-box;
+}
+
 .btn {
   margin-top: 0.8rem;
   width: fit-content;
@@ -60,7 +77,7 @@
 }
 
 .planArea {
-  margin-top: 1rem;
+  margin-top: 3rem; /* Increased from 1rem for more space */
 }
 
 .placeholder {
@@ -72,6 +89,17 @@
 
 .planContainer {
   margin-top: 0.8rem;
+}
+
+.planContainer.loading {
+  opacity: 0.3;
+}
+
+.planContainer.loading button {
+  pointer-events: none;
+  background-color: var(--color-light--1);
+  border: 1px solid var(--color-light--1);
+  color: var(--color-dark--0);
 }
 
 .planDay {
