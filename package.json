@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "server": "json-server --watch data/cities.json --port 9000 --delay 500",
-    "serverai": "json-server --watch data/travelPlan.json --port 9001 --delay 800"
+    "server": "json-server --watch data/cities.json --port 9000",
+    "serverai": "json-server --watch data/travelPlan.json --port 9001"
   },
   
   "dependencies": {

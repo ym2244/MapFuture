@@ -20,37 +20,39 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
-    case "SET_FIELD":
-      return { ...state, [action.field]: action.value };
-    case "FETCH_START":
+    case "planner/loading":
       return { ...state, loading: true, error: "" };
-    case "FETCH_ERROR":
-      return { ...state, loading: false, error: action.error };
-    case "FULL_PLAN":
+
+    case "planner/fieldSet":
+      return { ...state, [action.field]: action.payload };
+
+    case "planner/planLoaded":
       return {
         ...state,
-        planDays: action.planDays,
-        locations: action.locations,
+        planDays: action.payload.planDays,
+        locations: action.payload.locations,
         currentDayIndex: 0,
         approvedCities: [],
         allDone: false,
         loading: false,
       };
-    case "PARTIAL_PLAN":
+
+    case "planner/planPartial":
       return {
         ...state,
         planDays: {
           ...state.planDays,
-          [action.day]: action.planDays[action.day],
+          [action.payload.day]: action.payload.planDays[action.payload.day],
         },
         locations: [
-          ...state.locations.filter((l) => l.day !== action.day),
-          action.location,
+          ...state.locations.filter((l) => l.day !== action.payload.day),
+          action.payload.location,
         ],
         loading: false,
       };
-    case "CONFIRM_DAY": {
-      const newApproved = [...state.approvedCities, action.city];
+
+    case "planner/dayConfirmed": {
+      const newApproved = [...state.approvedCities, action.payload.city];
       const isLast =
         state.currentDayIndex === Object.keys(state.planDays).length - 1;
       return {
@@ -63,8 +65,12 @@ function reducer(state, action) {
         feedback: isLast ? state.feedback : "",
       };
     }
+
+    case "planner/error":
+      return { ...state, loading: false, error: action.payload };
+
     default:
-      return state;
+      throw new Error("Unknown action type");
   }
 }
 
@@ -95,7 +101,7 @@ export default function Planner() {
   };
 
   const fetchPlan = async (isRegeneration = false) => {
-    dispatch({ type: "FETCH_START" });
+    dispatch({ type: "planner/loading" });
     try {
       const payload = {
         country,
@@ -126,16 +132,20 @@ export default function Planner() {
         const dayName = dayKeys[currentDayIndex];
         const location = locs.find((l) => l.day === dayName);
         dispatch({
-          type: "PARTIAL_PLAN",
-          day: dayName,
-          planDays: structured,
-          location,
+          type: "planner/planPartial",
+          payload: { day: dayName, planDays: structured, location },
         });
       } else {
-        dispatch({ type: "FULL_PLAN", planDays: structured, locations: locs });
+        dispatch({
+          type: "planner/planLoaded",
+          payload: { planDays: structured, locations: locs },
+        });
       }
     } catch (e) {
-      dispatch({ type: "FETCH_ERROR", error: "生成计划失败: " + e.message });
+      dispatch({
+        type: "planner/error",
+        payload: "生成计划失败: " + e.message,
+      });
     }
   };
 
@@ -147,7 +157,7 @@ export default function Planner() {
   const handleConfirm = () => {
     const dayName = dayKeys[currentDayIndex];
     const cityName = planDays[dayName].city;
-    dispatch({ type: "CONFIRM_DAY", city: cityName });
+    dispatch({ type: "planner/dayConfirmed", payload: { city: cityName } });
   };
 
   useEffect(() => {
@@ -188,9 +198,9 @@ export default function Planner() {
               value={country}
               onChange={(e) =>
                 dispatch({
-                  type: "SET_FIELD",
+                  type: "planner/fieldSet",
                   field: "country",
-                  value: e.target.value,
+                  payload: e.target.value,
                 })
               }
               placeholder="e.g. Spain"
@@ -204,9 +214,9 @@ export default function Planner() {
               value={startDate}
               onChange={(e) =>
                 dispatch({
-                  type: "SET_FIELD",
+                  type: "planner/fieldSet",
                   field: "startDate",
-                  value: e.target.value,
+                  payload: e.target.value,
                 })
               }
               required
@@ -220,9 +230,9 @@ export default function Planner() {
               value={interest}
               onChange={(e) =>
                 dispatch({
-                  type: "SET_FIELD",
+                  type: "planner/fieldSet",
                   field: "interest",
-                  value: e.target.value,
+                  payload: e.target.value,
                 })
               }
               placeholder="e.g. Art, Food"
@@ -235,9 +245,9 @@ export default function Planner() {
               value={days}
               onChange={(e) =>
                 dispatch({
-                  type: "SET_FIELD",
+                  type: "planner/fieldSet",
                   field: "days",
-                  value: +e.target.value,
+                  payload: +e.target.value,
                 })
               }
               min={1}
@@ -277,9 +287,9 @@ export default function Planner() {
                 value={feedback}
                 onChange={(e) =>
                   dispatch({
-                    type: "SET_FIELD",
+                    type: "planner/fieldSet",
                     field: "feedback",
-                    value: e.target.value,
+                    payload: e.target.value,
                   })
                 }
               />
