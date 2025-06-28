@@ -14,15 +14,13 @@ export default function Product() {
         <div>
           <h2>About MapFuture.</h2>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo est
-            dicta illum vero culpa cum quaerat architecto sapiente eius non
-            soluta, molestiae nihil laborum, placeat debitis, laboriosam at fuga
-            perspiciatis?
+            Travel should be about the experience, not the logistics. We built
+            our platform on a lightning-fast mapping engine and a curated global
+            database of points of interest.
           </p>
           <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis
-            doloribus libero sunt expedita ratione iusto, magni, id sapiente
-            sequi officiis et.
+            So, spend less time plotting and more time exploring. Mapfuture will
+            help you discover the best routes and hidden gems along the way.
           </p>
         </div>
       </section>

@@ -15,9 +15,9 @@ export default function Product() {
             Just $9/month.
           </h2>
           <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae vel
-            labore mollitia iusto. Recusandae quos provident, laboriosam fugit
-            voluptatem iste.
+            Unlock unlimited multi-stop planning, live traffic & weather alerts,
+            offline map downloads, and seamless calendar sync—plus 24/7 human
+            support to keep every trip on track.
           </p>
         </div>
         <img src="img-2.jpg" alt="overview of a large city with skyscrapers" />

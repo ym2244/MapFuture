@@ -1,4 +1,3 @@
-/* src/pages/Planner.jsx */
 import React, { useReducer, useEffect } from "react";
 import { useCities } from "../contexts/CitiesContext";
 import styles from "./Planner.module.css";
@@ -174,7 +173,7 @@ export default function Planner() {
             emoji: loc?.emoji || "🏙️",
             position: loc ? { lat: loc.lat, lng: loc.lng } : { lat: 0, lng: 0 },
             date: getDateForDay(i),
-            notes: `${name} on ${getDateForDay(i)}`,
+            notes: `Day ${i + 1} on ${country}, planned by Planner AI`,
             id: Date.now() + i,
           });
         }
@@ -213,7 +212,7 @@ export default function Planner() {
           <div className={styles.inputGroup}>
             <label>Start Date</label>
             <DatePicker
-              className={styles.input} // 新增
+              className={styles.input}
               selected={new Date(startDate)}
               onChange={(date) =>
                 dispatch({
@@ -272,8 +271,8 @@ export default function Planner() {
             }`}
           >
             <div className={styles.planDay}>
-              <h3>{`${dayKeys[currentDayIndex]} - ${getDateForDay(
-                currentDayIndex
+              <h3>{`${dayKeys[currentDayIndex]} : ${getDateForDay(
+                currentDayIndex - 1
               )}`}</h3>
               <ul className={styles.planList}>
                 <li>

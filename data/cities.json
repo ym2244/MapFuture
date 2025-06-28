@@ -1,88 +1,100 @@
 {
   "cities": [
     {
-      "cityName": "Lisbon",
-      "country": "Portugal",
-      "emoji": "🇵🇹",
-      "date": "2027-10-31T15:59:59.138Z",
-      "notes": "My favorite city so far!",
-      "position": {
-        "lat": 38.727881642324164,
-        "lng": -9.140900099907554
-      },
-      "id": 73930385
-    },
-    {
-      "cityName": "Madrid",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2027-07-15T08:22:53.976Z",
-      "notes": "",
-      "position": {
-        "lat": 40.46635901755316,
-        "lng": -3.7133789062500004
-      },
-      "id": 17806751
-    },
-    {
-      "cityName": "Berlin",
-      "country": "Germany",
-      "emoji": "🇩🇪",
-      "date": "2027-02-12T09:24:11.863Z",
-      "notes": "Amazing 😃",
-      "position": {
-        "lat": 52.53586782505711,
-        "lng": 13.376933665713324
-      },
-      "id": 98443197
-    },
-    {
-      "cityName": "Nijar",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2023-04-03T07:47:59.202Z",
-      "notes": "",
-      "position": {
-        "lat": "36.967508314568164",
-        "lng": "-2.13128394200588"
-      },
-      "id": 98443198
-    },
-    {
-      "cityName": "Toronto",
+      "cityName": "Waterloo",
       "country": "Canada",
       "emoji": "🇨🇦",
+      "date": "2024-09-01T19:33:33.000Z",
+      "notes": "The city where my university is located ❤️",
       "position": {
-        "lat": 43.6532,
-        "lng": -79.3832
+        "lat": "43.469864270218416",
+        "lng": "-80.50373094053454"
+      },
+      "id": 1750707079703
+    },
+    {
+      "cityName": "Halifax",
+      "country": "Canada",
+      "emoji": "🇨🇦",
+      "date": "2021-08-20T19:34:56.000Z",
+      "notes": "The city where my high school is located, love the seafood😎",
+      "position": {
+        "lat": "44.642276976185016",
+        "lng": "-63.57979220633815"
+      },
+      "id": 1750707079704
+    },
+    {
+      "cityName": "Rome",
+      "country": "Italy",
+      "emoji": "🇮🇹",
+      "date": "2023-06-23T19:38:45.000Z",
+      "notes": "Went there once during the March Break🍕",
+      "position": {
+        "lat": "41.705728515237524",
+        "lng": "12.654267688614443"
+      },
+      "id": 1750707079705
+    },
+    {
+      "cityName": "Paris",
+      "country": "France",
+      "emoji": "🇫🇷",
+      "position": {
+        "lat": 48.8566,
+        "lng": 2.3522
       },
       "date": "2025-06-24",
-      "notes": "Toronto on 2025-06-24",
-      "id": 1750656389437
+      "notes": "Day 1 on France, planned by Planner AI",
+      "id": 1750709485585
     },
     {
-      "cityName": "Niagara Falls",
-      "country": "Canada",
-      "emoji": "🇨🇦",
+      "cityName": "Lyon",
+      "country": "France",
+      "emoji": "🇫🇷",
       "position": {
-        "lat": 43.0781,
-        "lng": -79.0759
+        "lat": 45.764,
+        "lng": 4.8357
       },
       "date": "2025-06-25",
-      "notes": "Niagara Falls on 2025-06-25",
-      "id": 1750656389439
+      "notes": "Day 2 on France, planned by Planner AI",
+      "id": 1750709485587
     },
     {
-      "cityName": "Montreal",
-      "country": "Canada",
-      "emoji": "🇨🇦",
+      "cityName": "Tokyo",
+      "country": "Japan",
+      "emoji": "🇯🇵",
       "position": {
-        "lat": 45.5088,
-        "lng": -73.5878
+        "lat": 35.6895,
+        "lng": 139.767
       },
       "date": "2025-06-26",
-      "notes": "Montreal on 2025-06-26",
-      "id": 1750656389440
+      "notes": "Day 1 on Japan, planned by Planner AI",
+      "id": 1750715118982
+    },
+    {
+      "cityName": "Osaka",
+      "country": "Japan",
+      "emoji": "🇯🇵",
+      "position": {
+        "lat": 34.6937,
+        "lng": 135.4932
+      },
+      "date": "2025-06-27",
+      "notes": "Day 2 on Japan, planned by Planner AI",
+      "id": 1750715118983
+    },
+    {
+      "cityName": "Sapporo",
+      "country": "Japan",
+      "emoji": "🇯🇵",
+      "position": {
+        "lat": 43.0618,
+        "lng": 141.3544
+      },
+      "date": "2025-06-28",
+      "notes": "Day 3 on Japan, planned by Planner AI",
+      "id": 1750715118984
     }
   ]
 }
