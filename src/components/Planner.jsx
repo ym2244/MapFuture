@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Button from "./Button";
 
 const BASE_URL =
-  process.env.AI_API_URL || "http://127.0.0.1:8000";
+  import.meta.env.VITE_AI_API || "http://127.0.0.1:8000";
 
 const initialState = {
   country: "",

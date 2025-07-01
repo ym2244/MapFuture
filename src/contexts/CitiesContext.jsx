@@ -7,7 +7,7 @@ import {
 } from "react";
 
 const BASE_URL =
-  process.env.JSON_SERVER_CITIES_API_URL || "http://localhost:9000";
+  import.meta.env.VITE_CITIES_API || "http://localhost:9000";
 
 const CitiesContext = createContext();
 
