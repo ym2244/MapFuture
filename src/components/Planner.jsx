@@ -5,6 +5,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "./Button";
 
+const BASE_URL =
+  process.env.AI_API_URL || "http://127.0.0.1:8000";
+
 const initialState = {
   country: "",
   startDate: new Date(Date.now() + 86400000).toISOString().split("T")[0],
@@ -114,7 +117,7 @@ export default function Planner() {
         feedback,
         approvedCities,
       };
-      const res = await fetch("http://127.0.0.1:8000/app/travel-plan", {
+      const res = await fetch(`${BASE_URL}/app/travel-plan`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
