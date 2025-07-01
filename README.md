@@ -2,13 +2,14 @@
 
 An interactive travel-planning SPA built with React (Vite), backed by:
 
-* a **JSON server** (cities data)
-* a **FastAPI**-based AI backend (Groq LLM)
 * a **React** frontend
+* a **FastAPI**-based AI backend (Groq LLM)
+* a **JSON server** (cities data)
 
 This README covers:
 
 - [MapFuture](#mapfuture)
+  - [Deployed URLs](#deployed-urls)
   - [1. Clone](#1-clone)
   - [2. Environment Variables](#2-environment-variables)
   - [3. Local Development (without Docker)](#3-local-development-without-docker)
@@ -19,6 +20,14 @@ This README covers:
   - [5. Production Build](#5-production-build)
     - [Frontend](#frontend)
     - [AI Backend \& JSON Server](#ai-backend--json-server)
+
+---
+
+## Deployed URLs
+
+* **Frontend (MapFuture)**: [https://mapfuture.onrender.com](https://mapfuture.onrender.com)
+* **AI Backend**: [https://mapfuture-backend.onrender.com](https://mapfuture-backend.onrender.com)
+* **JSON Server API**: [https://map-future-json-api.onrender.com](https://map-future-json-api.onrender.com)
 
 ---
 
