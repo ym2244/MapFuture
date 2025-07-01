@@ -1,52 +1,50 @@
-{
-  "cities": [
-    {
-      "cityName": "Lisbon",
-      "country": "Portugal",
-      "emoji": "🇵🇹",
-      "date": "2027-10-31T15:59:59.138Z",
-      "notes": "My favorite city so far!",
-      "position": {
-        "lat": 38.727881642324164,
-        "lng": -9.140900099907554
-      },
-      "id": 73930385
-    },
-    {
-      "cityName": "Madrid",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2027-07-15T08:22:53.976Z",
-      "notes": "",
-      "position": {
-        "lat": 40.46635901755316,
-        "lng": -3.7133789062500004
-      },
-      "id": 17806751
-    },
-    {
-      "cityName": "Berlin",
-      "country": "Germany",
-      "emoji": "🇩🇪",
-      "date": "2027-02-12T09:24:11.863Z",
-      "notes": "Amazing 😃",
-      "position": {
-        "lat": 52.53586782505711,
-        "lng": 13.376933665713324
-      },
-      "id": 98443197
-    },
-    {
-      "cityName": "Nijar",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2023-04-03T07:47:59.202Z",
-      "notes": "",
-      "position": {
-        "lat": "36.967508314568164",
-        "lng": "-2.13128394200588"
-      },
-      "id": 98443198
+[
+  {
+    "id": "37e6",
+    "cityName": "Waterloo",
+    "country": "Canada",
+    "emoji": "🇨🇦",
+    "date": "2024-09-01T17:25:56.000Z",
+    "notes": "This is where my university is located—challenging yet profoundly rewarding!✨",
+    "position": {
+      "lat": "43.46238895421421",
+      "lng": "-80.52234637173032"
     }
-  ]
-}
+  },
+  {
+    "id": "891c",
+    "cityName": "Halifax",
+    "country": "Canada",
+    "emoji": "🇨🇦",
+    "date": "2021-08-30T17:31:35.000Z",
+    "notes": "Lived 3 years, finished high school, love the seafood! 🦞❤️",
+    "position": {
+      "lat": "44.642276976185016",
+      "lng": "-63.59859995455127"
+    }
+  },
+  {
+    "id": "46f2",
+    "cityName": "Paris",
+    "country": "France",
+    "emoji": "🇫🇷",
+    "date": "2017-06-03T17:33:06.000Z",
+    "notes": "Visited with family; missed our trips. 😢",
+    "position": {
+      "lat": "48.852969123136674",
+      "lng": "2.356520323739702"
+    }
+  },
+  {
+    "id": "8309",
+    "cityName": "Rome",
+    "country": "Italy",
+    "emoji": "🇮🇹",
+    "date": "2023-03-05T18:34:17.000Z",
+    "notes": "March break school trip—JoJo Part 5 was filmed here! 🏛️",
+    "position": {
+      "lat": "41.86956082699455",
+      "lng": "12.462788210325957"
+    }
+  }
+]
